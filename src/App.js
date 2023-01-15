@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, Input } from "@mui/material";
 import React, { useState } from "react";
 import './App.css';
+import Message from "./Message";
 
 
 
@@ -8,9 +9,7 @@ function App() {
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-
-    console.log(input);
-    console.log(messages);
+  const [username, setUsername] = useState("");
 
   const sendMessage = (event) => {
       //all the logic to send a message goes here.
@@ -35,7 +34,7 @@ function App() {
 
       {
         messages.map(message => (
-          <p>{message}</p>
+          <Message text={message}/>
         ))
       }
     </div>
