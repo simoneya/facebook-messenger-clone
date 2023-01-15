@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, FormControl, InputLabel, Input } from "@mui/material";
 import React, { useState } from "react";
 import './App.css';
 
@@ -24,8 +24,11 @@ function App() {
       <h1> Hello There!</h1>
 
       <form>
-         <input value={input} onChange={event => setInput(event.target.value)}/>
-         <Button disabled={!input} variant="contained" type="submit" onClick={sendMessage}>Send Message</Button>
+      <FormControl>
+          <InputLabel>Enter a message...</InputLabel>
+          <Input value={input} onChange={event => setInput(event.target.value)}/>
+          <Button disabled={!input} variant="contained" type="submit" onClick={sendMessage}>Send Message</Button>
+      </FormControl>
       </form>
       
       {/* messages themselves */}
