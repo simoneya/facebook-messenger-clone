@@ -12,21 +12,25 @@ function App() {
 
   const sendMessage = (event) => {
       //all the logic to send a message goes here.
+      event.preventDefault();
       setMessages([...messages, input]);
-      setInput("");
+      setInput('');
   }
 
   return (
     <div className="App">
       <h1> Hello There!</h1>
-      <input value={input} onChange={event => setInput(event.target.value)}/>
-      <button onClick={sendMessage}>Send Message</button>
+
+      <form>
+         <input value={input} onChange={event => setInput(event.target.value)}/>
+         <button type="submit" onClick={sendMessage}>Send Message</button>
+      </form>
       
       {/* messages themselves */}
 
       {
         messages.map(message => (
-          <p>{messages}</p>
+          <p>{message}</p>
         ))
       }
     </div>
