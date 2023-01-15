@@ -1,5 +1,7 @@
+import { Button } from "@mui/material";
 import React, { useState } from "react";
 import './App.css';
+
 
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
 
       <form>
          <input value={input} onChange={event => setInput(event.target.value)}/>
-         <button type="submit" onClick={sendMessage}>Send Message</button>
+         <Button variant="outlined" type="submit" onClick={sendMessage}>Send Message</Button>
       </form>
       
       {/* messages themselves */}
