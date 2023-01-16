@@ -25,8 +25,7 @@ function App() {
   const sendMessage = (event) => {
       //all the logic to send a message goes here.
       event.preventDefault();
-      setMessages([
-        ...messages, {username: username, text: input}
+      setMessages([...messages, {username: username, text: input}
       ]);
       setInput('');
   }
@@ -48,7 +47,7 @@ function App() {
 
       {
         messages.map(message => (
-          <Message username={message.username} text={message.text}/>
+          <Message username={username} message={message}/>
         ))
       }
     </div>
