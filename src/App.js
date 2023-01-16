@@ -25,7 +25,9 @@ function App() {
   const sendMessage = (event) => {
       //all the logic to send a message goes here.
       event.preventDefault();
-      setMessages([...messages, {username: username, text: input}]);
+      setMessages([
+        ...messages, {username: username, text: input}
+      ]);
       setInput('');
   }
 
