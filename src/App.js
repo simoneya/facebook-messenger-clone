@@ -1,7 +1,10 @@
 import { Button, FormControl, InputLabel, Input } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import './App.css';
+import firebase from 'firebase';
+import db from "./firebase";
 import Message from "./Message";
+
 
 
 
@@ -11,22 +14,31 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
 
-  //useState - variable in react, "short time memory" //
-  //useEffect - run a code on a condition. //
-  // 2 most powerful hooks: useState + useEffect. //
-
+  //roda só quando o app carregar os componentes
   useEffect(() => {
-    //const name = prompt('Please enter your name');
-    setUsername(prompt('Please enter your name'));
-   }, [])
+    db.collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+      setMessages(snapshot.docs.map(doc => ({id: doc.id, message: doc.data()})))
+    })
+  }, []);
+  
+  // capturar o nome e entrar como um user
+  useEffect(() => {
+   //const name = prompt('Please enter your name');
+   setUsername(prompt('Please enter your name'));
+  }, [])
 
+  // função para enviar as menssagens
   const sendMessage = (event) => {
-      //all the logic to send a message goes here.
-      event.preventDefault();
-      setMessages([...messages, {username: username, text: input}
-      ]);
-      setInput('');
+    event.preventDefault();
+
+    db.collection('messages').add({
+      message: input,
+      username: username,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    setInput('');
   }
+
 
   return (
     <div className="App">
