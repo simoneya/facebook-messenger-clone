@@ -7,20 +7,18 @@ import Message from "./Message";
 
 function App() {
 
-  const [input, setInput] = useState("");  
-  const [messages, setMessages] = useState([ 
-    {username: 'simona', text: 'hello guys!'},
-    {username: 'yawar',  text: 'hi simona!'}, 
-  ]);
-  const [username, setUsername] = useState("");
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [username, setUsername] = useState('');
 
   //useState - variable in react, "short time memory" //
   //useEffect - run a code on a condition. //
   // 2 most powerful hooks: useState + useEffect. //
 
   useEffect(() => {
-    setUsername(prompt("Please enter your name"));
-  }, []);
+    //const name = prompt('Please enter your name');
+    setUsername(prompt('Please enter your name'));
+   }, [])
 
   const sendMessage = (event) => {
       //all the logic to send a message goes here.
