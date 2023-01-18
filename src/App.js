@@ -1,66 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import FlipMove from 'react-flip-move';
-import { FormControl, Input } from '@mui/material';
-import firebase from 'firebase';
-import SendIcon from '@mui/icons-material/Send';
-import { IconButton } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import { FormControl, Input } from "@mui/material";
+import Message from "./Message";
+import db from "./firebase";
+import firebase from "firebase";
+import FlipMove from "react-flip-move";
+import SendIcon from "@mui/icons-material/Send";
+import { IconButton } from "@mui/material";
 
-import db from 'firebase';
-import Message from './Message';
-
-import './App.css';
 
 function App() {
-
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
- 
   useEffect(() => {
-    db.collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-      setMessages(snapshot.docs.map(doc => ({id: doc.id, message: doc.data()})))
-    })
+    //fetching data from firebase database
+    db.collection("messages")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setMessages(
+          snapshot.docs.map((doc) => ({ id: doc.id, message: doc.data() }))
+        );
+      });
   }, []);
-  
-  
+
   useEffect(() => {
-   setUsername(prompt('Please enter your name'));
-  }, [])
+    setUsername(prompt("Please Enter Your Name"));
+  }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
 
-    db.collection('messages').add({
+    db.collection("messages").add({
       message: input,
       username: username,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    setInput('');
-  }
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setInput("");
+  };
 
+  console.log(messages);
   return (
     <div className="App">
-      <img className="app-image" src="https://facebookbrand.com/wp-content/uploads/2018/09/Header-e1538151782912.png?w=100&h=100" alt="Facebook-messenger-logo" />
-      <h1 className="app-title">
-        Seja Bem-Vindo aos maiorais <strong className="user">{username}</strong> <strong className="emoji">😉😌 </strong>!
-      </h1>
+      <img
+        src="https://facebookbrand.com/wp-content/uploads/2020/10/Logo_Messenger_NewBlurple-399x399-1.png?w=80&h=80"
+        alt="Logo"
+      />
+      <h2>Hello, {username}</h2>
+      <h3>Welcome to Messenger...</h3>
 
-      <form className="app-form">
-        <FormControl className="app-formControl">
-          <Input className="app-input" placeholder='Enter a mensage...' value={input} onChange={event => setInput(event.target.value)} />
-          <IconButton className="app-iconButton" disabled={!input} variant="contained" color="primary" type="submit" onClick={sendMessage}>
+      <form className="app__form">
+        <FormControl className="app__formControl">
+          <Input
+            className="app__input"
+            placeholder="Enter a Message..."
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+          />
+
+          <IconButton
+            className="app__iconButton"
+            type="submit"
+            disabled={!input}
+            variant="contained"
+            color="primary"
+            onClick={sendMessage}
+          >
             <SendIcon />
           </IconButton>
         </FormControl>
       </form>
 
       <FlipMove>
-        {
-          messages.map(({id, message}) => (
-            <Message key={id} username={username} message={message} />
-          ))
-        }
+        {messages.map(({ id, message }) => (
+          <Message key={id} username={username} message={message} />
+        ))}
       </FlipMove>
     </div>
   );
